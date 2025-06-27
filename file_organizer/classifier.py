@@ -1,7 +1,8 @@
 import os
 
 EXTENSIONS_TYPE = {
-    'documento': ['pdf', 'doc', 'docx', 'odt', 'djvu'],
+    'documento': ['pdf', 'doc', 'docx', 'odt'],
+    'libro': ['djvu'],
     'texto': ['txt', 'md'],
     'hoja_calculo': ['xls', 'xlsx', 'ods', 'csv'],
     'presentacion': ['ppt', 'pptx', 'odp'],
@@ -18,8 +19,10 @@ EXTENSIONS_TYPE = {
 }
 
 def get_file_extension(file_path):
-    #TODO manage names with multiple points 
-    return os.path.basename(file_path).split(".", 1)[1]
+    basename = os.path.basename(file_path)
+    extension_with_dot = os.path.splitext(basename)[1]
+    extension = extension_with_dot.removeprefix(".")
+    return extension
 
 def get_document_type(file_path):
     """
