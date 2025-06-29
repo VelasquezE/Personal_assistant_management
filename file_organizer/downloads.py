@@ -43,7 +43,7 @@ def organize_download_folder(download_folder_path):
         new_filename = give_new_filename(file_type, file, image_counter)
 
         if (filedate.is_file_old(file)):
-          if utils.is_file_for_delete(file, new_filename):
+          if utils.is_file_for_delete(new_filename):
               os.remove(file)
               continue
           else:
