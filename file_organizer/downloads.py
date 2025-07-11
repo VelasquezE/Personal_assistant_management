@@ -3,13 +3,14 @@ import shutil
 from . import filedate
 from . import classifier
 from . import utils
+from pdf_manager import renamer
 
 # Renaming files function for download folder (generic organization)
 
 def give_new_filename(file_type, file_path, n_image):
     """
     Creates new filename: 
-        <type>_<description>_<YYYY-MM-DD>.ext
+        <description>_<YYYY-MM-DD>.ext
         For images:
         <type>_<YYYY-MM-DD>.ext
     Returns:
@@ -21,9 +22,11 @@ def give_new_filename(file_type, file_path, n_image):
     extension = classifier.get_file_extension(file_path)
 
     if file_type == "imagen":
-        new_filename = f"{file_type}_0{n_image}_{modification_date}.{extension}"
+        new_filename = renamer.prepare_string(f"{file_type}_0{n_image}_{modification_date}")
     else:
-        new_filename = f"{file_type}_{current_filename}_{modification_date}.{extension}"
+        new_filename = renamer.prepare_string(f"{current_filename}_{modification_date}")
+
+    new_filename = f"{new_filename}.{extension}"
 
     return new_filename
 
@@ -40,7 +43,11 @@ def organize_download_folder(download_folder_path):
         if file_type == "imagen":
             image_counter += 1
 
-        new_filename = give_new_filename(file_type, file, image_counter)
+        if (classifier.get_file_extension(file) == "pdf" and renamer.is_a_book(file)):
+               new_filename = renamer.give_new_book_name(file) + f".pdf"
+               file_type = "libro"
+        else:
+            new_filename = give_new_filename(file_type, file, image_counter)
 
         if (filedate.is_file_old(file)):
           if utils.is_file_for_delete(new_filename):

@@ -1,5 +1,6 @@
 import pypdf
 import os
+from file_organizer import utils
 
 def get_pdf_path():
    pdf_path = input("Enter pdf: ")
@@ -30,7 +31,7 @@ def encrypt_pdf():
     pdf_complete_path = get_pdf_path()
     password = ask_password()
 
-    pdf_name, pdf_base_path = get_pdf_name_path(pdf_complete_path)
+    pdf_name, pdf_base_path = utils.get_file_name_path(pdf_complete_path)
 
     original_pdf = pypdf.PdfReader(pdf_complete_path)
 
