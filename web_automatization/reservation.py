@@ -43,10 +43,10 @@ def scroll_until_desired_day(desired_day):
 
     while (desired_day not in days):
         next_days_button = browser.find_element(By.CLASS_NAME, "arrow-right")
-        time.sleep(2)
+        time.sleep(1)
         next_days_button.click()
         days = [day.text for day in browser.find_elements(By.CLASS_NAME, "day-label")]
-        time.sleep(2)
+        time.sleep(1)
 
 def delete_overlay():
     """
@@ -71,8 +71,6 @@ wait = WebDriverWait(browser, 10)
 
 log_in()
 
-time.sleep(5)
-
 WebDriverWait(browser, 10).until(
     EC.presence_of_element_located((By.CLASS_NAME, "calendar-cell"))
 )
@@ -94,10 +92,8 @@ if (days_until_desired <= 2 and current_hour >= desired_hour):
     reservation_button = browser.find_element(By.XPATH, xpath)
 
     if "Free" in reservation_button.text:
-        time.sleep(5)
         reservation_button.click()
 
-        time.sleep(5)
         wait = WebDriverWait(browser, 5)
 
         book_button = wait.until(EC.element_to_be_clickable((By.ID, "sb-button")))
@@ -106,7 +102,6 @@ if (days_until_desired <= 2 and current_hour >= desired_hour):
 
         wait = WebDriverWait(browser, 10)
 
-        time.sleep(5)
         delete_overlay()
         confirmation_button = wait.until(EC.element_to_be_clickable((By.NAME, "bf-submit")))
         confirmation_button.click()
